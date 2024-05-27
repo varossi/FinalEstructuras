@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Tus Reservas{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark thead-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="">Hotel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('home')}}">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('fotos')}}">Fotos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Tu cuenta
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ url_for('nuevareserva') }}">Nueva Reserva</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('reservations') }}">Tus Reservas</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<div class="container" >
+    <br><h2>Tus Reservas</h2>
+    {% if reservations %}
+    <br><table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Tipo de Habitación</th>
+                <th scope="col">Check-in</th>
+                <th scope="col">Check-out</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation[0] }}</td>
+                <td>{{ reservation[2] }}</td>
+                <td>{{ reservation[3] }}</td>
+                <td>{{ reservation[4] }}</td>
+                <td>{{ reservation[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No tienes reservas actualmente.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

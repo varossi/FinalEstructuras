@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Nueva Reserva{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Hotel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('fotos') }}">Fotos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Tu cuenta
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('nuevareserva') }}">Nueva Reserva</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('reservations')}}">Tus Reservas</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<h2>Añadir Reserva</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        <label for="name">Nombre</label>
+        {{ form.name(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label for="room_type">Tipo de Habitación</label>
+        {{ form.room_type(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label for="check_in">Fecha de Entrada</label>
+        {{ form.check_in(class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label for="check_out">Fecha de Salida</label>
+        {{ form.check_out(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Añadir Reserva</button>
+</form>
+{% endblock %}
