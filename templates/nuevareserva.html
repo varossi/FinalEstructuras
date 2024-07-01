@@ -5,7 +5,7 @@
 {% block body %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Hotel</a>
+        <a class="navbar-brand" href="#">Elysium</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -34,25 +34,57 @@
         </div>
     </div>
 </nav>
-<h2>Añadir Reserva</h2>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-        <label for="name">Nombre</label>
-        {{ form.name(class="form-control") }}
-    </div>
-    <div class="form-group">
-        <label for="room_type">Tipo de Habitación</label>
-        {{ form.room_type(class="form-control") }}
-    </div>
-    <div class="form-group">
-        <label for="check_in">Fecha de Entrada</label>
-        {{ form.check_in(class="form-control") }}
-    </div>
-    <div class="form-group">
-        <label for="check_out">Fecha de Salida</label>
-        {{ form.check_out(class="form-control") }}
-    </div>
-    <button type="submit" class="btn btn-primary">Añadir Reserva</button>
-</form>
+<div class="container mt-4">
+    <h2 class="mb-4">Añadir Reserva</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group mb-3">
+            <label for="name">Nombre</label>
+            {{ form.name(class="form-control") }}
+            {% if form.name.errors %}
+                <div class="text-danger">
+                    {% for error in form.name.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group mb-3">
+            <label for="room_type">Tipo de Habitación</label>
+            {{ form.room_type(class="form-control") }}
+            {% if form.room_type.errors %}
+                <div class="text-danger">
+                    {% for error in form.room_type.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group mb-3">
+            <label for="check_in">Fecha de Entrada</label>
+            {{ form.check_in(class="form-control") }}
+            {% if form.check_in.errors %}
+                <div class="text-danger">
+                    {% for error in form.check_in.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group mb-3">
+            <label for="check_out">Fecha de Salida</label>
+            {{ form.check_out(class="form-control") }}
+            {% if form.check_out.errors %}
+                <div class="text-danger">
+                    {% for error in form.check_out.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Añadir Reserva</button>
+    </form>
+</div>
+
+<img src="{{ url_for('static', filename='img/banda.png') }}" class="d-block w-100">
 {% endblock %}
