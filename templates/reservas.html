@@ -5,7 +5,7 @@
 {% block body %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark thead-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="">Hotel</a>
+      <a class="navbar-brand" href="">Elysium</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -55,6 +55,9 @@
                 <td>{{ reservation[3] }}</td>
                 <td>{{ reservation[4] }}</td>
                 <td>{{ reservation[5] }}</td>
+                <td>
+                  <a href="{{ url_for('delete_reservation', reservation_id=reservation[0])}}" class="btn btn-danger btn-sm">Eliminar</a> 
+              </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -63,5 +66,6 @@
     <p>No tienes reservas actualmente.</p>
     {% endif %}
 </div>
+
 
 {% endblock %}

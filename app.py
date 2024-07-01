@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_mysqldb import MySQL
 from config import config
 from flask_login import LoginManager,login_user,logout_user,login_required,current_user
@@ -22,9 +22,13 @@ Login_manager_app.login_view = "login"
 def load_user(id):
     return ModelUser.get_by_id(db,id)
 
+
+
 @app.route('/')
 def index():
     return redirect(url_for('login'))
+
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -44,6 +48,83 @@ def login():
             return render_template('auth/login.html')
     else:
         return render_template('auth/login.html')
+
+
+
+
+@app.route('/nuevareserva', methods=['GET', 'POST'])
+@login_required
+def nuevareserva():
+    form = ReservationForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        room_type = form.room_type.data
+        check_in = form.check_in.data
+        check_out = form.check_out.data
+
+        
+        max_sencilla = 10  # Número de habitaciones sencillas
+        max_doble = 5  # Número de habitaciones dobles 
+
+        #disponibilidad de habitaciones
+        cursor = db.connection.cursor()
+        cursor.execute('''
+            SELECT COUNT(*) FROM reservations 
+            WHERE room_type = %s 
+            AND ((check_in <= %s AND check_out > %s) OR (check_in < %s AND check_out >= %s))
+        ''', (room_type, check_in, check_in, check_out, check_out))
+        count = cursor.fetchone()[0]
+
+        if room_type == 'sencilla' and count >= max_sencilla:
+            form.room_type.errors.append('No hay habitaciones sencillas disponibles para las fechas seleccionadas.')
+        elif room_type == 'doble' and count >= max_doble:
+            form.room_type.errors.append('No hay habitaciones dobles disponibles para las fechas seleccionadas.')
+        else:
+            cursor.execute('INSERT INTO reservations (user_id, name, room_type, check_in, check_out) VALUES (%s, %s, %s, %s, %s)', 
+                           (current_user.id, name, room_type, check_in, check_out))
+            db.connection.commit()
+            return redirect('/reservas')
+    
+    return render_template('nuevareserva.html', form=form)
+
+
+
+@app.route('/delete_reservation/<int:reservation_id>')
+@login_required
+def delete_reservation(reservation_id):
+        cursor = db.connection.cursor()
+        cursor.execute('DELETE FROM reservations WHERE id = %s', (reservation_id,))
+        db.connection.commit()
+        cursor.close()
+        return redirect('/reservas')
+
+    
+@app.route('/reservas')
+@login_required
+def reservations():
+
+    cursor = db.connection.cursor()
+    cursor.execute('SELECT * FROM reservations WHERE user_id = %s', (current_user.id,))
+    reservations = cursor.fetchall()
+    return render_template('reservas.html', reservations=reservations)
+
+
+
+@app.route('/nuevousuario', methods=['GET', 'POST'])
+def nuevousuario():
+    form = UsuarioForm()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = generate_password_hash(request.form['password'])
+        fullname = request.form['fullname']
+
+        cursor = db.connection.cursor()
+        cursor.execute('INSERT INTO user (username, password, fullname) VALUES (%s, %s, %s)', (username, password, fullname))
+        db.connection.commit()
+        return redirect('/login')
+    
+    return render_template('nuevousuario.html', form=form)
+
 
 @app.route('/logout')
 def logout():
@@ -66,52 +147,10 @@ def fotos():
     return render_template('fotos.html')
 
 
-@app.route('/nuevareserva', methods=['GET', 'POST'])
-@login_required
-def nuevareserva():
-    form = ReservationForm()
-    if request.method == 'POST':
-        name = request.form['name']
-        room_type = request.form['room_type']
-        check_in = datetime.strptime(request.form['check_in'], '%Y-%m-%d')
-        check_out = datetime.strptime(request.form['check_out'], '%Y-%m-%d')
-
-        cursor = db.connection.cursor()
-        cursor.execute('INSERT INTO reservations (user_id, name, room_type, check_in, check_out) VALUES (%s, %s, %s, %s, %s)', 
-                       (current_user.id, name, room_type, check_in, check_out))
-        db.connection.commit()
-        return redirect('/reservas')
-    
-    return render_template('nuevareserva.html', form=form)
-
-@app.route('/reservas')
-@login_required
-def reservations():
-
-    cursor = db.connection.cursor()
-    cursor.execute('SELECT * FROM reservations WHERE user_id = %s', (current_user.id,))
-    reservations = cursor.fetchall()
-    return render_template('reservas.html', reservations=reservations)
-
-@app.route('/nuevousuario', methods=['GET', 'POST'])
-def nuevousuario():
-    form = UsuarioForm()
-    if request.method == 'POST':
-        username = request.form['username']
-        password = generate_password_hash(request.form['password'])
-        fullname = request.form['fullname']
-
-        cursor = db.connection.cursor()
-        cursor.execute('INSERT INTO user (username, password, fullname) VALUES (%s, %s, %s)', (username, password, fullname))
-        db.connection.commit()
-        return redirect('/login')
-    
-    return render_template('nuevousuario.html', form=form)
-
-
-
 def status_401(error):
     return render_template('auth/login.html')
+
+
 
 def query_string():
     print(request)
@@ -119,8 +158,12 @@ def query_string():
     print(request.args.get('param1'))
     return "ok"
 
+
+
 def pagina_no_encontrada(error):
     return render_template('404.html'), 404
+
+
 
 if __name__ == '__main__':
     app.config.from_object(config['development'])

@@ -3,14 +3,14 @@
 {% block title %}Home{% endblock %}
 
 {% block customCSS %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebars.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% endblock %}
 
 
 {% block body %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom">
     <div class="container-fluid">
-      <a class="navbar-brand" href="">Hotel</a>
+      <a class="navbar-brand" href="">Elysium</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -39,8 +39,94 @@
       </div>
     </div>
   </nav>
-
-  <br><h2>Bienvenido, {{ current_user.fullname }}</h2>
+  <main>
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
+      <div class="col-md-6 p-lg-5 mx-auto my-5">
+        <h1 class="display-3 fw-bold">Bienvenido, {{ current_user.fullname }}</h1>
+        <h3 class="fw-normal text-muted mb-3">Descubra el encanto de Nueva York</h3>
+        <div class="d-flex gap-3 justify-content-center lead fw-normal">
+          <a class="icon-link" href="#">
+            Learn more
+            <svg class="bi"><use xlink:href="#chevron-right"/></svg>
+          </a>
+          <a class="icon-link" href="{{ url_for('nuevareserva') }}">
+            Reserva ya
+            <svg class="bi"><use xlink:href=""/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="product-device shadow-sm d-none d-md-block"></div>
+      <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+    </div>
+  
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+      <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <img src="{{ url_for('static', filename='img/ext.jpeg') }}" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></img>
+      </div>
+      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <img src="{{ url_for('static', filename='img/h1.png') }}" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></img>
+      </div>
+    </div>
+  
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <img src="{{ url_for('static', filename='img/h2.png') }}" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></img>
+      </div>
+      <div class="text-bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-body-tertiary shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>
+  
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>
+  
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>
+  </main>
 
 
 {% endblock %}

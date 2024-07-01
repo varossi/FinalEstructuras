@@ -3,6 +3,7 @@
 {% block title %}Nuevo Usuario{% endblock %}
 
 {% block body %}
+<div class="container mt-4">
 <h2>Nuevo Usuario</h2>
 <form method="POST">
     {{ form.hidden_tag() }}
@@ -20,4 +21,5 @@
     </div>
     <button type="submit" class="btn btn-primary">Crear Usuario</button>
 </form>
+</div>
 {% endblock %}
