@@ -2,70 +2,102 @@
 
 {% block title %}Tus Reservas{% endblock %}
 
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tusreservas.css') }}">
+{% endblock %}
+
 {% block body %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark thead-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="">Elysium</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ url_for('home')}}">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('fotos')}}">Fotos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Tu cuenta
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('nuevareserva') }}">Nueva Reserva</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('reservations') }}">Tus Reservas</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+        <a class="navbar-brand" href="#">Elysium</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('fotos') }}">Fotos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Tu cuenta
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ url_for('nuevareserva') }}">Nueva Reserva</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('reservations') }}">Tus Reservas</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                        {% if current_user.username == 'ADMIN' %}
+                        <li><a class="dropdown-item" href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
             </ul>
-          </li>
-        </ul>
-      </div>
+        </div>
     </div>
-  </nav>
-<div class="container" >
-    <br><h2>Tus Reservas</h2>
+</nav>
+
+
+<div class="container mt-5">
+    <div class="jumbotron bg-light p-5 rounded-lg">
+        <h2 class="display-4">Tus Reservas</h2>
+        <p class="lead">Aquí puedes gestionar todas tus reservas en Elysium.</p>
+    </div>
+
     {% if reservations %}
-    <br><table class="table">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Tipo de Habitación</th>
-                <th scope="col">Check-in</th>
-                <th scope="col">Check-out</th>
-            </tr>
-        </thead>
-        <tbody class="table-group-divider">
-            {% for reservation in reservations %}
-            <tr>
-                <td>{{ reservation[0] }}</td>
-                <td>{{ reservation[2] }}</td>
-                <td>{{ reservation[3] }}</td>
-                <td>{{ reservation[4] }}</td>
-                <td>{{ reservation[5] }}</td>
-                <td>
-                  <a href="{{ url_for('delete_reservation', reservation_id=reservation[0])}}" class="btn btn-danger btn-sm">Eliminar</a> 
-              </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Tipo de Habitación</th>
+                    <th scope="col">Check-in</th>
+                    <th scope="col">Check-out</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation[0] }}</td>
+                    <td>{{ reservation[2] }}</td>
+                    <td>{{ reservation[3] }}</td>
+                    <td>{{ reservation[4] }}</td>
+                    <td>{{ reservation[5] }}</td>
+                    <td>
+                        <a href="{{ url_for('delete_reservation', reservation_id=reservation[0]) }}" class="btn btn-danger btn-sm">Eliminar</a> 
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% else %}
-    <p>No tienes reservas actualmente.</p>
+    <div class="alert alert-info mt-4" role="alert">
+        No tienes reservas actualmente.
+    </div>
     {% endif %}
 </div>
-
-
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <br />
+        {% for message in messages %}
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<br>
+<br>
+<footer class="bg-dark text-white text-center p-3 mt-5">
+    &copy; 2023 Elysium. Todos los derechos reservados.
+</footer>
 {% endblock %}

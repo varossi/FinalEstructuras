@@ -7,39 +7,50 @@
 {% endblock %}
 
 {% block body %}
+<div class="container d-flex justify-content-center align-items-center>
+    <div class="row">
+        <div class="col-md-8 col-lg-6 col-xl-4">
+            <form class="form-signin" action="/login" method="POST">
+                <img class="mb-4" src="{{ url_for('static', filename='img/flask.png') }}" alt="" width="256" height="200">
+                {% with messages = get_flashed_messages() %}
+            
+                {% if messages %}
+                <br />
+                {% for message in messages %}
+                <div class="alert alert-primary alert-dismissible" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+            
+                {% endwith %}
+                <h1 class="h3 mb-3 fw-normal">Por favor inicia sesion</h1>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                    <label for="username">Usuario</label>
+                </div>
+                <div class="form-floating mt-2">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                    <label for="password">Contraseña</label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar sesion</button>
+                
+                <nav class="nav justify-content-center">
+                    <br>
+                    <p class="mb-0"><br>¿No tienes una cuenta?</p>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('nuevousuario') }}">Crear Usuario</a>
+                </nav>
+            
+            
+            
+            </form>
 
-<form class="form-signin" action="/login" method="POST">
-    <img class="mb-4" src="{{ url_for('static', filename='img/flask.png') }}" alt="" width="256" height="200">
-    {% with messages = get_flashed_messages() %}
-
-    {% if messages %}
-    <br />
-    {% for message in messages %}
-    <div class="alert alert-primary alert-dismissible" role="alert">
-        <strong>{{ message }}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     </div>
-    {% endfor %}
-    {% endif %}
-
-    {% endwith %}
-    <h1 class="h3 mb-3 fw-normal">Por favor inicia sesion</h1>
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <div class="form-floating">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-        <label for="username">Usuario</label>
-    </div>
-    <div class="form-floating mt-2">
-        <input type="password" class="form-control" name="password" placeholder="Password">
-        <label for="password">Contraseña</label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar sesion</button>
-    <nav class="nav justify-content-center">
-        <a class="nav-link active" aria-current="page" href="{{ url_for('nuevousuario') }}">Crear Usuario</a>
-    </nav>
+</div>
 
 
-
-</form>
 
 {% endblock %}

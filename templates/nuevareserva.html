@@ -2,7 +2,12 @@
 
 {% block title %}Nueva Reserva{% endblock %}
 
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nuevareserva.css') }}">
+{% endblock %}
+
 {% block body %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Elysium</a>
@@ -10,7 +15,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Inicio</a>
                 </li>
@@ -24,67 +29,250 @@
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Tu cuenta
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ url_for('nuevareserva') }}">Nueva Reserva</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('reservations')}}">Tus Reservas</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('reservations') }}">Tus Reservas</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                        {% if current_user.username == 'ADMIN' %}
+                        <li><a class="dropdown-item" href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+                        {% endif %}
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="container mt-4">
-    <h2 class="mb-4">Añadir Reserva</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div class="form-group mb-3">
-            <label for="name">Nombre</label>
-            {{ form.name(class="form-control") }}
-            {% if form.name.errors %}
-                <div class="text-danger">
-                    {% for error in form.name.errors %}
-                        <small>{{ error }}</small>
-                    {% endfor %}
+
+<section class="hero-section text-center text-white d-flex align-items-center">
+    <div class="container">
+        <h1 class="display-4">Nueva Reserva</h1>
+        <h2 class="lead">Estas a un paso de ser parte de la familia Elysium</h2>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Calendario -->
+        <div class="col-md-8">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Disponibilidad</h3>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <button class="btn btn-outline-secondary" id="prev-month" aria-label="Mes anterior">Anterior</button>
+                        <h4 id="calendar-month-year"></h4>
+                        <button class="btn btn-outline-secondary" id="next-month" aria-label="Mes siguiente">Siguiente</button>
+                    </div>
+                    <div id="calendar">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Do</th>
+                                    <th>Lu</th>
+                                    <th>Ma</th>
+                                    <th>Mi</th>
+                                    <th>Ju</th>
+                                    <th>Vi</th>
+                                    <th>Sá</th>
+                                </tr>
+                            </thead>
+                            <tbody id="calendar-body">
+                                
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            {% endif %}
+            </div>
         </div>
-        <div class="form-group mb-3">
-            <label for="room_type">Tipo de Habitación</label>
-            {{ form.room_type(class="form-control") }}
-            {% if form.room_type.errors %}
-                <div class="text-danger">
-                    {% for error in form.room_type.errors %}
-                        <small>{{ error }}</small>
-                    {% endfor %}
+        
+        <div class="col-md-4">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title mb-4 text-center">Añadir Reserva</h3>
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group mb-3">
+                            <label for="name">Nombre</label>
+                            {{ form.name(class="form-control") }}
+                            {% if form.name.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.name.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="room_type">Tipo de Habitación</label>
+                            {{ form.room_type(class="form-control") }}
+                            {% if form.room_type.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.room_type.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="check_in">Fecha de Entrada</label>
+                            {{ form.check_in(class="form-control") }}
+                            {% if form.check_in.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.check_in.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="check_out">Fecha de Salida</label>
+                            {{ form.check_out(class="form-control") }}
+                            {% if form.check_out.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.check_out.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Añadir Reserva</button>
+                    </form>
                 </div>
-            {% endif %}
+            </div>
         </div>
-        <div class="form-group mb-3">
-            <label for="check_in">Fecha de Entrada</label>
-            {{ form.check_in(class="form-control") }}
-            {% if form.check_in.errors %}
-                <div class="text-danger">
-                    {% for error in form.check_in.errors %}
-                        <small>{{ error }}</small>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group mb-3">
-            <label for="check_out">Fecha de Salida</label>
-            {{ form.check_out(class="form-control") }}
-            {% if form.check_out.errors %}
-                <div class="text-danger">
-                    {% for error in form.check_out.errors %}
-                        <small>{{ error }}</small>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <button type="submit" class="btn btn-primary">Añadir Reserva</button>
-    </form>
+    </div>
 </div>
 
-<img src="{{ url_for('static', filename='img/banda.png') }}" class="d-block w-100">
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <br />
+        {% for message in messages %}
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<footer class="bg-dark text-white text-center p-3 mt-5">
+    &copy; 2023 Elysium. Todos los derechos reservados.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendarBody = document.querySelector('#calendar-body');
+        const calendarMonthYear = document.querySelector('#calendar-month-year');
+        const prevMonthButton = document.querySelector('#prev-month');
+        const nextMonthButton = document.querySelector('#next-month');
+
+        let currentYear = new Date().getFullYear();
+        let currentMonth = new Date().getMonth();
+
+        const fetchAvailability = () => {
+            fetch(`/check_availability?year=${currentYear}&month=${currentMonth + 1}`)
+                .then(response => response.json())
+                .then(data => {
+                    renderCalendar(data);
+                })
+                .catch(error => console.error('Error fetching availability:', error));
+        };
+
+        const renderCalendar = (availability) => {
+            calendarBody.innerHTML = '';
+
+            const date = new Date(currentYear, currentMonth, 1);
+            const firstDay = date.getDay();
+            const lastDate = new Date(currentYear, currentMonth + 1, 0).getDate();
+            let days = '<tr>';
+
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            calendarMonthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            for (let i = 0; i < firstDay; i++) {
+                days += '<td></td>';
+            }
+
+            for (let day = 1; day <= lastDate; day++) {
+                const availabilityValue = availability[day] || 0;
+                const color = getAvailabilityColor(availabilityValue);
+                const availabilityText = getAvailabilityText(availabilityValue);
+
+                days += `
+                    <td 
+                        class="calendar-day" 
+                        style="background-color: ${color};" 
+                        title="${availabilityText}" 
+                        data-day="${day}">
+                        ${day}
+                    </td>
+                `;
+
+                if ((day + firstDay) % 7 === 0 && day !== lastDate) {
+                    days += '</tr><tr>';
+                }
+            }
+
+            const remainingCells = 7 - ((lastDate + firstDay) % 7);
+            if (remainingCells < 7) {
+                for (let i = 0; i < remainingCells; i++) {
+                    days += '<td></td>';
+                }
+            }
+
+            calendarBody.innerHTML = `${days}</tr>`;
+
+            document.querySelectorAll('.calendar-day').forEach(dayElement => {
+                dayElement.addEventListener('click', (event) => {
+                    const selectedDay = event.target.dataset.day;
+                    alert(`Selected day: ${selectedDay}`);
+                });
+            });
+        };
+
+        const getAvailabilityColor = (availableRooms) => {
+            const maxRooms = 15;
+            const ratio = availableRooms / maxRooms;
+
+            return chroma.scale(['#FF6F6F', '#FFA07A', '#90EE90'])
+                .mode('lab')
+                .colors(100)[Math.round(ratio * 99)];
+        };
+
+        const getAvailabilityText = (availableRooms) => {
+            if (availableRooms === 0) {
+                return 'No disponible';
+            } else if (availableRooms < 3) {
+                return 'Muy pocas habitaciones';
+            } else if (availableRooms < 7) {
+                return 'Pocas habitaciones';
+            } else {
+                return 'Disponible';
+            }
+        };
+
+        prevMonthButton.addEventListener('click', () => {
+            if (currentMonth === 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else {
+                currentMonth--;
+            }
+            fetchAvailability();
+        });
+
+        nextMonthButton.addEventListener('click', () => {
+            if (currentMonth === 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else {
+                currentMonth++;
+            }
+            fetchAvailability();
+        });
+
+        fetchAvailability(); // Initial fetch
+    });
+</script>
+
 {% endblock %}

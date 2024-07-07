@@ -2,24 +2,49 @@
 
 {% block title %}Nuevo Usuario{% endblock %}
 
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nuevousuario.css') }}">
+{% endblock %}
+
 {% block body %}
-<div class="container mt-4">
-<h2>Nuevo Usuario</h2>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-        <label for="username">Usuario</label>
-        {{ form.username(class="form-control") }}
-    </div>
-    <div class="form-group">
-        <label for="password">Contraseña</label>
-        {{ form.password(class="form-control") }}
-    </div>
-    <div class="form-group">
-        <label for="fullname">Nombre Completo</label>
-        {{ form.fullname(class="form-control") }}
-    </div>
-    <button type="submit" class="btn btn-primary">Crear Usuario</button>
-</form>
+<div class="container mt-5">
+    <h2 class="mb-4">Nuevo Usuario</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group mb-3">
+            <label for="username">Usuario</label>
+            {{ form.username(class="form-control", id="username") }}
+            {% if form.username.errors %}
+                <div class="text-danger">
+                    {% for error in form.username.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group mb-3">
+            <label for="password">Contraseña</label>
+            {{ form.password(class="form-control", id="password") }}
+            {% if form.password.errors %}
+                <div class="text-danger">
+                    {% for error in form.password.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group mb-3">
+            <label for="fullname">Nombre Completo</label>
+            {{ form.fullname(class="form-control", id="fullname") }}
+            {% if form.fullname.errors %}
+                <div class="text-danger">
+                    {% for error in form.fullname.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Crear Usuario</button>
+    </form>
 </div>
 {% endblock %}
