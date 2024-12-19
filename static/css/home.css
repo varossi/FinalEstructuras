@@ -1,0 +1,67 @@
+/* General Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* Hero Section */
+.hero-section {
+  background: url('../img/balcon.png') no-repeat center center;
+  background-size: cover;
+  color: #fff;
+  height: 47vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-section:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Add overlay for better text readability */
+  z-index: -1;
+}
+
+.hero-section h1 {
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.hero-section .btn-primary, .hero-section .btn-secondary {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+}
+
+/* Features Section */
+.features-section .card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.features-section .card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.features-section .card img {
+  border-radius: 10px 10px 0 0;
+}
+
+.features-section .card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.features-section .card-text {
+  font-size: 1rem;
+  color: #6c757d;
+}
+

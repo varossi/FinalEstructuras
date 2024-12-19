@@ -2,62 +2,128 @@
 
 {% block title %}Fotos{% endblock %}
 
-{% block head %}
-
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/fotos.css') }}">
 {% endblock %}
 
 {% block body %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Hotel</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('fotos')}}">Fotos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Tu cuenta
-            </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url_for('nuevareserva') }}">Nueva Reserva</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('reservations')}}">Tus Reservas</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+        <a class="navbar-brand" href="#">Elysium</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('fotos') }}">Fotos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Tu cuenta
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ url_for('nuevareserva') }}">Nueva Reserva</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('reservations') }}">Tus Reservas</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                        {% if current_user.username == 'ADMIN' %}
+                        <li><a class="dropdown-item" href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
             </ul>
-          </li>
-        </ul>
-      </div>
+        </div>
     </div>
-  </nav>
-  <div id="carouselExample" class="carousel slide">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="{{ url_for('static', filename='img/h2.png') }}" class="d-block w-100" alt="..." width="400" height="400">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/h1.png') }}" class="d-block w-100" alt="..." width="400" height="400">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ url_for('static', filename='img/ext.jpeg') }}" class="d-block w-100" alt="..." width="400" height="400">
-      </div>
-    </div>
-    <button class="carousel-control-prev bg-dark" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next bg-dark" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
+</nav>
 
+<section class="hero-section text-center text-white d-flex align-items-center">
+    <div class="container">
+        <h1 class="display-4">Galería de Fotos</h1>
+        <h2 class="lead">Explora la belleza y el lujo del Elysium</h2>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='img/h2.png') }}" class="d-block w-100" alt="Habitación Doble">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Habitación Doble</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='img/h1.png') }}" class="d-block w-100" alt="Habitación Sencilla">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Habitación Sencilla</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='img/ext2.jpeg') }}" class="d-block w-100" alt="Exterior del Hotel">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Exterior del Hotel</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='img/balcon.png') }}" class="d-block w-100" alt="Balcón">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Balcón</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='img/brooklyn.png') }}" class="d-block w-100" alt="Brooklyn Bridge">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Brooklyn Bridge</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='img/empire.png') }}" class="d-block w-100" alt="Empire State">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>skyline</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='img/pool.png') }}" class="d-block w-100" alt="Piscina">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Piscina</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='img/resto.png') }}" class="d-block w-100" alt="Restaurante">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Restaurante</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='img/spa.png') }}" class="d-block w-100" alt="Spa">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Spa</h5>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+</div>
+
+<footer class="bg-dark text-white text-center p-3 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-md-start">
+                &copy; 2023 Elysium. Todos los derechos reservados.
+        </div>
+    </div>
+</footer>
 {% endblock %}

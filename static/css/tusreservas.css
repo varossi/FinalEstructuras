@@ -1,0 +1,58 @@
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.jumbotron {
+    background-image: url('../img/empire.png');
+    background-size: cover;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+
+.jumbotron h2 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.jumbotron p.lead {
+    font-size: 1.25rem;
+}
+
+/* Table Styling */
+.table {
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.alert-info {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+}

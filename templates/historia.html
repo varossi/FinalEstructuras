@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Historia{% endblock %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/historia.css') }}">
+{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Elysium</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('fotos') }}">Fotos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Tu cuenta
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ url_for('nuevareserva') }}">Nueva Reserva</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('reservations') }}">Tus Reservas</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                        {% if current_user.username == 'ADMIN' %}
+                        <li><a class="dropdown-item" href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-section">
+    <div class="overlay"></div>
+    <div class="container text-center">
+        <h1 class="display-4">Nuestra Historia</h1>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <h3 class="text-center">El Comienzo</h3>
+    <p>
+        En el año 1947, dos amigos de la infancia, Mateo y Alejandro, decidieron perseguir un sueño compartido: crear un lugar que fuera un refugio de lujo y tranquilidad, donde los huéspedes pudieran escapar del bullicio de la vida cotidiana y encontrar un paraíso de paz y elegancia. Inspirados por sus viajes y las maravillas arquitectónicas que habían visto alrededor del mundo, se embarcaron en una aventura para construir el Elysium Grand Hotel.
+    </p>
+
+    <img src="{{ url_for('static', filename='img/inaguracion.png') }}" class="img-fluid mb-4" alt="Inauguration of Elysium Grand Hotel">
+
+    <blockquote class="blockquote text-center">
+        <p class="mb-0">"Desde su inauguración, el Elysium Grand Hotel se convirtió en un icono de lujo y estilo."</p>
+    </blockquote>
+
+    <h3 class="text-center mt-5">Crecimiento y Reconocimiento</h3>
+    <p>
+        Desde su inauguración, el Elysium Grand Hotel se convirtió en un icono de lujo y estilo. Las habitaciones, decoradas con elegancia atemporal, ofrecían vistas al mar y a los jardines exuberantes que rodeaban la propiedad. Los huéspedes podían disfrutar de una cocina gourmet en el restaurante del hotel, relajarse en la piscina al aire libre, o rejuvenecer en el spa, todo mientras experimentaban un servicio impecable.
+    </p>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <h4>1947</h4>
+            <p>Inauguración del Elysium Grand Hotel.</p>
+        </div>
+        <div class="timeline-item">
+            <h4>1955</h4>
+            <p>Se añadieron las primeras suites de lujo con vistas al mar.</p>
+        </div>
+        <div class="timeline-item">
+            <h4>1963</h4>
+            <p>Reconocimiento como uno de los mejores hoteles de lujo en el mundo.</p>
+        </div>
+        <div class="timeline-item">
+            <h4>1980</h4>
+            <p>Apertura del exclusivo spa.</p>
+        </div>
+    </div>
+
+    <h3 class="text-center mt-5">Legado y Futuro</h3>
+    <p>
+        Con el paso de los años, el Elysium Grand Hotel ha acogido a visitantes de todo el mundo, incluidos artistas, escritores, y personalidades ilustres. Las historias de aquellos que se han hospedado en el hotel están impregnadas en sus paredes, creando un legado de recuerdos y momentos inolvidables.
+    </p>
+
+    <img src="{{ url_for('static', filename='img/ext.jpeg') }}" class="img-fluid mb-4" alt="Elysium Grand Hotel today">
+
+    <p>
+        Hoy, el Elysium Grand Hotel sigue siendo administrado por las familias de Mateo y Alejandro, quienes han mantenido viva la visión original de sus fundadores. El espíritu de amistad y pasión que dio origen al hotel continúa inspirando a cada miembro del equipo, asegurando que cada huésped disfrute de una estancia mágica y memorable.
+    </p>
+</div>
+<footer class="bg-dark text-white text-center p-3 mt-5">
+    &copy; 2023 Elysium. Todos los derechos reservados.
+</footer>
+{% endblock %}
